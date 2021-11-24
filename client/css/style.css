@@ -286,13 +286,21 @@ h2 {
 	margin-top: 10px;
 }
 
+.bottom-avatar {
+    width: 30px;
+    height: 30px;
+	padding: 5px;
+	padding-top: 8px;
+	opacity: 0.7;
+}
+
 .bottom-icon {
 	padding: 5px;
 	padding-top: 8px;
 	opacity: 0.5;
 }
 
-.bottom-icon:hover {
+.bottom-icon:hover, .bottom-avatar:hover {
 	opacity: 1.0;
 }
 
@@ -428,6 +436,11 @@ xopacity: .5;
 	left: 0px;
 }
 
+.stuck-sticker {
+    width: 20px;
+    height: 20px;
+}
+
 .sticker {
 	padding-top:  0px;
 	padding-left: 2px;
@@ -438,13 +451,29 @@ xopacity: .5;
 	background-repeat: no-repeat;
 }
 
+.sticker-large {
+	width: 30px;
+	height: 30px;
+}
+
 .stickers {
 	xwidth: 1000px;
 	text-align: right;
 	padding-top: 6px; margin: 0;
 }
 
-
+#sticker-warning {
+	background-image: url('../images/stickers/sticker-warning.png');
+	background-size: 30px;
+}
+#sticker-blocked {
+	background-image: url('../images/stickers/sticker-blocked.png');
+	background-size: 30px;
+}
+#sticker-tick {
+	background-image: url('../images/stickers/sticker-tick.png');
+	background-size: 30px;
+}
 #sticker-red {
 	background-image: url('../images/stickers/sticker-red.png');
 }
@@ -496,6 +525,7 @@ xopacity: .5;
 }
 #nosticker {
 	background-image: url('../images/stickers/sticker-deletestar.png');
+    background-size: 30px;
 }
 
 #sticker-nostar {
@@ -586,7 +616,7 @@ xopacity: .5;
 /* Stuff for landing page */
 h1.home {
 	font-size: 100px;
-	font-family: 'Covered By Your Grace',"Arial Rounded MT Bold", arial, serif;
+	font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
 	color: #19ba98;
 	opacity: .8;
 	padding: 0;
@@ -597,7 +627,7 @@ h1.home {
 
 .home {
 	font-size: 30px;
-	font-family: 'Covered By Your Grace',"Arial Rounded MT Bold", arial, serif;
+	font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
 	color: #19ba98;
 	color: #222;
 	opacity: 1;
@@ -630,7 +660,7 @@ input.text {
     margin-bottom: 10px;
     border: none;
 	font-size: 30px;
-	font-family: 'Covered By Your Grace',"Arial Rounded MT Bold", arial, serif;
+	font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
 	color: #5c9db4;
 	text-align: center;
 	border-bottom: dashed 3px #19ba98;
@@ -646,7 +676,7 @@ input:hover {
     margin-bottom: 10px;
     border: none;
 	font-size: 40px;
-	font-family: 'Covered By Your Grace',"Arial Rounded MT Bold", arial, serif;
+	font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
 	color: #19ba98;
 	color: black;
 

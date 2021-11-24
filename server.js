@@ -8,7 +8,6 @@ var sanitizer = require('sanitizer');
 var compression = require('compression');
 var express = require('express');
 // var conf = require('./config.js').server;
-// var ga = require('./config.js').googleanalytics;
 var nconf = require('nconf');
 
 /*************
@@ -58,9 +57,6 @@ app.set('view engine', 'pug');
 
 app.use(compression());
 app.use(nconf.get('server:baseurl'), router);
-
-// app.locals.ga = ga.enabled;
-// app.locals.gaAccount = ga.account;
 
 router.use(express.static(__dirname + '/client'));
 
@@ -195,10 +191,11 @@ io.on('connection', (client) => {
 				clean_data.rot = scrub(data.rot);
 				clean_data.colour = scrub(data.colour);
 				clean_data.type = scrub(data.type);
+				clean_data.person = scrub(data.person)
 
 
 				getRoom(client, function(room) {
-					createCard( room, clean_data.id, clean_data.text, clean_data.x, clean_data.y, clean_data.rot, clean_data.colour, clean_data.type);
+					createCard( room, clean_data.id, clean_data.text, clean_data.x, clean_data.y, clean_data.rot, clean_data.colour, clean_data.type, clean_data.person);
 				});
 
 				message_out = {
@@ -497,7 +494,7 @@ function broadcastToRoom ( client, message ) {
 }
 
 //----------------CARD FUNCTIONS
-function createCard( room, id, text, x, y, rot, colour, type ) {
+function createCard( room, id, text, x, y, rot, colour, type, person ) {
 	var card = {
 		id: id,
 		colour: colour,
@@ -506,7 +503,8 @@ function createCard( room, id, text, x, y, rot, colour, type ) {
 		y: y,
 		text: text,
 		type: type,
-		sticker: null
+		sticker: null,
+		person: person
 	};
 
 	db.createCard(room, id, card);

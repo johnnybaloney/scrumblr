@@ -1,3 +1,25 @@
+# About the Fork
+
+## Summary
+
+Slightly modded original with 'avatars' for the team:
+
+* automatic conversion of ticket id’s into links (see `script.js`)
+* 'avatar' cards and markers ('warning', 'blocker' etc.)
+* changed the font style
+* `Dockerfile`
+
+To run it:
+
+```
+$ docker build -t scrumblrteam .
+$ docker run -d -p 80:80 -v /absolute/path/to/scrumblr:/scrumblr scrumblrteam
+```
+
+Changes to the code will be reflected in the running instance accessible at http://localhost:80.
+
+![](teamscrumblr.png)
+
 scrumblr
 ========
 

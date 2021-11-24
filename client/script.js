@@ -1,3 +1,7 @@
+var theTeam = ["fozzie", "gonzo", "kermit", "misspiggy", "rizzo", "rowlf", "statler", "waldorf", "walter"];
+var ticketsUrl = "https://github.com/johnnybaloney/scrumblr/issues/";
+var ticketIdRegex = '([0-9]+)';
+var ticketIdRegexOptions = 'ig';
 var cards = {};
 var totalcolumns = 0;
 var columns = [];
@@ -103,7 +107,7 @@ function getMessage(m) {
         case 'createCard':
             //console.log(data);
             drawNewCard(data.id, data.text, data.x, data.y, data.rot, data.colour, data.type, null,
-                null);
+                null, person);
             break;
 
         case 'deleteCard':
@@ -186,8 +190,11 @@ $(document).bind('keyup', function(event) {
     keyTrap = event.which;
 });
 
-function drawNewCard(id, text, x, y, rot, colour, type, sticker, animationspeed) {
+function drawNewCard(id, text, x, y, rot, colour, type, sticker, animationspeed, person) {
     //cards[id] = {id: id, text: text, x: x, y: y, rot: rot, colour: colour};
+
+    var regex = new RegExp(ticketIdRegex, ticketIdRegexOptions);
+    var text = text.replace(regex, "<a href=\"" + ticketsUrl + "$1\" target=\"_blank\">$1</a>");
 
     var h = '';
 
@@ -215,6 +222,16 @@ function drawNewCard(id, text, x, y, rot, colour, type, sticker, animationspeed)
             '" class="content stickertarget droppable">' +
             text + '</div><span class="filler"></span>\
         </div>';
+    }
+    else if (type == 'avatar') {
+        avatarImg = 'postit-'+person+'.png';
+
+         h = '<div id="' + id + '" class="sticky ' + colour + ' draggable cardstack" style="-webkit-transform:rotate(' + rot + 'deg);">' +
+        '<svg class="card-icon delete-card-icon" width="15" height="15"><use xlink:href="teenyicons/teenyicons-outline-sprite.svg#outline--x-circle" /></svg>' +
+        '<img class="card-image" src="images/postit/postit-'+person+'.png">' +
+        '<div id="content:' + id +
+            '" class="content stickertarget droppable">' +
+            text + '</div><span class="filler"></span></div>';
     }
 
     var card = $(h);
@@ -342,7 +359,7 @@ function drawNewCard(id, text, x, y, rot, colour, type, sticker, animationspeed)
         function() {
                 rotateCardColor(id, $(this).data('colour'));
             });
- 
+
 
     card.children('.content').editable({
         multiline: true,
@@ -408,8 +425,8 @@ function addSticker(cardId, stickerId) {
 //----------------------------------
 // cards
 //----------------------------------
-function createCard(id, text, x, y, rot, colour, type) {
-    drawNewCard(id, text, x, y, rot, colour, type, null, null);
+function createCard(id, text, x, y, rot, colour, type, person) {
+    drawNewCard(id, text, x, y, rot, colour, type, null, null, person);
 
     var action = "createCard";
 
@@ -420,7 +437,8 @@ function createCard(id, text, x, y, rot, colour, type) {
         y: y,
         rot: rot,
         colour: colour,
-        type: type
+        type: type,
+        person: person
     };
 
     sendAction(action, data);
@@ -480,6 +498,7 @@ function initCards(cardArray) {
             card.type,
             card.sticker,
             0,
+            card.person
         );
     }
 
@@ -796,6 +815,24 @@ $(function() {
     //setTimeout($.unblockUI, 2000);
 
 
+    theTeam.forEach(function(it) {
+        $("#create-" + it).click(function() { createAvatar(it) });
+    });
+
+    function createAvatar(person) {
+        var rotation = Math.random() * 4 - 2;
+        uniqueID = Math.round(Math.random() * 99999999);
+        createCard(
+            'card' + uniqueID,
+            '',
+            58,
+            $('div.board-outline').height(),
+            rotation,
+            randomStickyColour(),
+            "avatar",
+            person);
+    }
+
     $("#create-card")
         .click(function() {
             var rotation = Math.random() * 10 - 5; //add a bit of random rotation (+/- 5deg)
@@ -936,6 +973,11 @@ $(function() {
 
 
     $(".sticker").draggable({
+        revert: true,
+        zIndex: 1000
+    });
+
+    $(".sticker-large").draggable({
         revert: true,
         zIndex: 1000
     });
